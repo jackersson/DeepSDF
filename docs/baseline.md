@@ -1,3 +1,5 @@
+### [Installation](https://github.com/jackersson/DeepSDF#install-requirements)
+
 
 ### Fetch data
 ```
@@ -6,7 +8,7 @@
 # Visualize
 python visualize_mesh.py -f data/ShapeNetV2/plane/24_simplified.obj
 ```
-
+![](https://github.com/jackersson/DeepSDF/blob/master/docs/initial.png)
 
 ### Preprocess
 ```
@@ -24,6 +26,8 @@ python train_deep_sdf.py -e examples/planes/ -c latest
 python plot_log.py -e examples/planes
 ```
 
+![](https://github.com/jackersson/DeepSDF/blob/master/docs/loss.png)
+
 ### Reconstruct
 ```
 python reconstruct.py -e examples/planes -c 100 --split examples/splits/ShapeNetV2_planes_tiny_test.json -d data/processed --skip
@@ -34,6 +38,8 @@ python reconstruct.py -e examples/planes -c 100 --split examples/splits/ShapeNet
 ```
 python visualize_mesh.py -f examples/planes/Reconstructions/100/Meshes/ShapeNetV2/plane/24_simplified.ply
 ```
+
+![](https://github.com/jackersson/DeepSDF/blob/master/docs/reconstructed.png)
 
 ### Eval
 ```
