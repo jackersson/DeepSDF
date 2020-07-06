@@ -1,6 +1,6 @@
 # DeepSDF
 
-This is an implementation of the CVPR '19 paper "DeepSDF: Learning Continuous Signed Distance Functions for Shape Representation" by Park et al. See the paper [here][6]. 
+This is an implementation of the CVPR '19 paper "DeepSDF: Learning Continuous Signed Distance Functions for Shape Representation" by Park et al. See the paper [here][6].
 
 [![DeepSDF Video](https://img.youtube.com/vi/LILRJzMQw5o/0.jpg)](https://www.youtube.com/watch?v=LILRJzMQw5o)
 
@@ -39,7 +39,7 @@ The DeepSDF code allows for pre-processing of meshes from multiple datasets and 
                 <instance_name>.ply
 ```
 
-Subsets of the unified data source can be reference using split files, which are stored in a simple JSON format. For examples, see `examples/splits/`. 
+Subsets of the unified data source can be reference using split files, which are stored in a simple JSON format. For examples, see `examples/splits/`.
 
 The file `datasources.json` stores a mapping from named datasets to paths indicating where the data came from. This file is referenced again during evaluation to compare against ground truth meshes (see below), so if this data is moved this file will need to be updated accordingly.
 
@@ -74,7 +74,27 @@ The only file that is required to begin an experiment is 'specs.json', which set
 
 ## How to Use DeepSDF
 
+### Install Requirements
+```
+git clone https://github.com/jackersson/DeepSDF.git
+git submodule init update
+
+python3 -m venv venv
+source venv/bin/activate
+pip install -U wheel pip setuptools
+
+pip install -r requirements.txt
+
+# Install PyTorch
+pip install torch==1.5.1+cu101 torchvision==0.6.1+cu101 -f https://download.pytorch.org/whl/torch_stable.htm
+```
+
 ### Pre-processing the Data
+```
+./build_requirements.sh
+```
+
+Once this is done there should be two executables in the `DeepSDF/bin` directory, one for surface sampling and one for SDF sampling. With the binaries, the dataset can be preprocessed using `preprocess_data.py`.
 
 In order to use mesh data for training a DeepSDF model, the mesh will need to be pre-processed. This can be done with the `preprocess_data.py` executable. The preprocessing code is in C++ and has the following requirements:
 
@@ -88,18 +108,8 @@ In order to use mesh data for training a DeepSDF model, the mesh will need to be
 [3]: https://github.com/jlblancoc/nanoflann
 [4]: https://eigen.tuxfamily.org
 
-With these dependencies, the build process follows the standard CMake procedure:
 
-```
-mkdir build
-cd build
-cmake ..
-make -j
-```
-
-Once this is done there should be two executables in the `DeepSDF/bin` directory, one for surface sampling and one for SDF sampling. With the binaries, the dataset can be preprocessed using `preprocess_data.py`.
-
-#### Preprocessing with Headless Rendering 
+#### Preprocessing with Headless Rendering
 
 The preprocessing script requires an OpenGL context, and to acquire one it will open a (small) window for each shape using Pangolin. If Pangolin has been compiled with EGL support, you can use the "headless" rendering mode to avoid the windows stealing focus. Pangolin's headless mode can be enabled by setting the `PANGOLIN_WINDOW_URI` environment variable as follows:
 
@@ -155,12 +165,12 @@ python evaluate.py -e <experiment_directory> -d <data_directory> --split <split_
 
 ##### Note on Table 3 from the CVPR '19 Paper
 
-Given the stochastic nature of shape reconstruction (shapes are reconstructed via gradient descent with a random initialization), reconstruction accuracy will vary across multiple reruns of the same shape. The metrics listed in Table 3 for the "chair" and "plane" are the result of performing two reconstructions of each shape and keeping the one with the lowest chamfer distance. The code as released does not support this evaluation and thus the reproduced results will likely differ from those produced in the paper. For example, our test run with the provided code produced Chamfer distance (multiplied by 10<sup>3</sup>) mean and median of 0.157 and 0.062 respectively for the "chair" class and 0.101 and 0.044 for the "plane" class (compared to 0.204, 0.072 for chairs and 0.143, 0.036 for planes reported in the paper). 
+Given the stochastic nature of shape reconstruction (shapes are reconstructed via gradient descent with a random initialization), reconstruction accuracy will vary across multiple reruns of the same shape. The metrics listed in Table 3 for the "chair" and "plane" are the result of performing two reconstructions of each shape and keeping the one with the lowest chamfer distance. The code as released does not support this evaluation and thus the reproduced results will likely differ from those produced in the paper. For example, our test run with the provided code produced Chamfer distance (multiplied by 10<sup>3</sup>) mean and median of 0.157 and 0.062 respectively for the "chair" class and 0.101 and 0.044 for the "plane" class (compared to 0.204, 0.072 for chairs and 0.143, 0.036 for planes reported in the paper).
 
 
 ## Examples
 
-Here's a list of commands for a typical use case of training and evaluating a DeepSDF model using the "sofa" class of the ShapeNet version 2 dataset. 
+Here's a list of commands for a typical use case of training and evaluating a DeepSDF model using the "sofa" class of the ShapeNet version 2 dataset.
 
 ```
 # navigate to the DeepSdf root directory
@@ -185,7 +195,7 @@ python preprocess_data.py --data_dir data --source [...]/ShapeNetCore.v2/ --name
 python reconstruct.py -e examples/sofas -c 2000 --split examples/splits/sv2_sofas_test.json -d data --skip
 
 # evaluate the reconstructions
-python evaluate.py -e examples/sofas -c 2000 -d data -s examples/splits/sv2_sofas_test.json 
+python evaluate.py -e examples/sofas -c 2000 -d data -s examples/splits/sv2_sofas_test.json
 ```
 
 ## Team

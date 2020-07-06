@@ -1,0 +1,28 @@
+{
+    "ShapeNetV2": {
+        "plane": [
+            "3123_simplified",
+            "2240_simplified",
+            "2625_simplified",
+            "2494_simplified",
+            "662_simplified",
+            "2215_simplified",
+            "3506_simplified",
+            "1706_simplified",
+            "3397_simplified",
+            "1946_simplified",
+            "2655_simplified",
+            "3891_simplified",
+            "3529_simplified",
+            "3872_simplified",
+            "2285_simplified",
+            "3585_simplified",
+            "1443_simplified",
+            "1095_simplified",
+            "931_simplified",
+            "2654_simplified",
+            "2682_simplified"
+
+        ]
+    }
+}
